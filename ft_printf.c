@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/16 21:46:52 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/17 20:02:54 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,45 @@
 void	initializer(t_printf	*p)
 {
 	p->len = 0;
+	p->nlen = 0;
 	p->line = 0;
+	p->zero = FALSE;
+	p->plus = FALSE;
+	p->blank = FALSE;
+	p->minus = FALSE;
+	p->htag = FALSE;
+	p->point = FALSE;
 }
 
 int	ft_printf(const	char *str, ...)
 {
 	t_printf	p;
+	int			i;
+	va_list		aptr;
 
-	(void)str;
+	va_start(aptr, str);
+	if (!str)
+		return (0);
 	initializer(&p);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '%' && i++ > -1)
+			i += is_percentage(&p, str, i, aptr);
+		else
+		{
+			p.len++;
+			p.line = ft_addchar(p.line, str[i++]);
+		}
+		if (i == -1)
+			break ;
+	}
+	ft_putstr_fd(p.line, 1);
 	return (p.len);
+}
+
+int	main(void)
+{
+	ft_printf("test");
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/16 16:15:58 by pfaria-d          #+#    #+#              #
-#    Updated: 2023/02/16 21:45:21 by pfaria-d         ###   ########.fr        #
+#    Updated: 2023/02/17 19:55:34 by pfaria-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -19,8 +19,10 @@ LIGHTGRAY		= \033[0;37m
 GREEN			= \033[0;32m
 
 SRC 		= ft_printf.c \
+			  ft_printf_parsing.c \
 
-SRCBONUS	=
+SRCBONUS	= ft_printf.c \
+			  ft_printf_parsing.c \
 
 OBJS 		= $(SRC:.c=.o)
 
@@ -40,14 +42,14 @@ ifdef 	MAKEBONUS
     OBJS = $(OBJSBONUS)
 endif
 
-NORM = $(shell norminette | grep Error: | wc -l | awk '{print $1}')
+NORM = $(shell norminette | grep Error: | wc -l | awk '{print $1}' | xargs)
 
-NORMINETTE = $(shell ls | grep ewhjgewjhghewji | wc -l | awk '{print $1}')
+NORMINETTE = 0
 
 ifeq (${NORM}, ${NORMINETTE})
 	NORMINETTE = "${WHITE}NORM : ${GREEN}OK${NOCOLOR}\n"
 else
-	NORMINETTE = "${WHITE}NORM : ${RED}${NORM}errors${NOCOLOR}\n"
+	NORMINETTE = "${WHITE}NORM : ${RED}${NORM} errors${NOCOLOR}\n"
 endif
 
 all: 		$(NAME)
@@ -61,7 +63,7 @@ $(NAME):	$(OBJS)
 			@make -C ./Libft
 			@printf "${CLEAR}☂️  ${LIGHTPURPLE}Printf ${LIGHTGRAY}compiled\n${NOCOLOR}"
 			@ar rcs $(NAME) $(OBJS)
-			@echo	${NORMINETTE}
+			@echo ${NORMINETTE}
 
 bonus:		fclean
 			@make MAKEBONUS=1 all
