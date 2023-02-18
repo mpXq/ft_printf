@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:16:05 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/17 19:29:44 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:48:16 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdarg.h>
-# include "./Libft/libft.h"
+# include "Libft/libft.h"
 
 typedef int		t_bool;
 

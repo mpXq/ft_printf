@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/17 20:06:32 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:49:43 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,29 @@ static char	*getarg(char c, va_list aptr)
 	if (c == 'c')
 		cmd = ft_addchar(cmd, va_arg(aptr, int));
 	else if (c == 's')
-		cmd = ft_strjoin(cmd, va_arg(aptr, char *));
+		cmd = ft_strdup(va_arg(aptr, char *));
 	else if (c == 'p')
-		cmd = ft_strjoin(cmd, ft_ptoa(va_arg(aptr, size_t)));
+		cmd = ft_ptoa(va_arg(aptr, size_t));
+	else if (c == 'd' || c == 'u')
+		cmd = ft_itoa(va_arg(aptr, int));
+	else if (c == 'u')
+		cmd = ft_itoa_base((int)va_arg(aptr, unsigned int), "0123456789");
+	else if (c == 'x')
+		cmd = ft_itoa_base((size_t)va_arg(aptr, size_t), "0123456789abcdef");
+	else if (c == 'X')
+		cmd = ft_itoa_base((size_t)va_arg(aptr, size_t), "0123456789ABCDEF");
+	else if (c == '%')
+		cmd = ft_addchar(cmd, '%');
 	return (cmd);
+}
+
+static void	command(t_printf *p, char *str, char *cmd)
+{
+	if (ft_strlen(str) == 1)
+	{
+		p->line = ft_strjoin(p->line, cmd);
+		p->len += ft_strlen(cmd);
+	}
 }
 
 int	is_percentage(t_printf *p, const char *str, int i, va_list aptr)
@@ -56,6 +75,6 @@ int	is_percentage(t_printf *p, const char *str, int i, va_list aptr)
 		return (-1);
 	if (iscommand(str[i]))
 		cmd = getarg(str[i++], aptr);
-//	command(p, ft_strndup(cmd, start, i));
+	command(p, ft_strndup(str, start, i), cmd);
 	return (i);
 }

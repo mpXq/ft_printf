@@ -6,7 +6,7 @@
 #    By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/16 16:15:58 by pfaria-d          #+#    #+#              #
-#    Updated: 2023/02/17 19:55:34 by pfaria-d         ###   ########.fr        #
+#    Updated: 2023/02/18 02:09:24 by pfaria-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -34,8 +34,6 @@ FLAGS		= -Wall -Wextra -Werror
 
 RM  = rm -f
 
-HFILE = ft_printf.h
-
 NAME = libftprintf.a
 
 ifdef 	MAKEBONUS
@@ -56,12 +54,14 @@ all: 		$(NAME)
 
 .c.o:
 			@printf "${CLEAR}🌂 ${LIGHTPURPLE}%s ${LIGHTGRAY}compiling...${NOCOLOR}" ${notdir $<}
-			@$(GCC) $(FLAGS) -I $(HFILE) -c $< -o $(<:.c=.o)
+			@$(GCC) $(FLAGS) -c $< -o $(<:.c=.o)
 
 
 $(NAME):	$(OBJS)
 			@make -C ./Libft
 			@printf "${CLEAR}☂️  ${LIGHTPURPLE}Printf ${LIGHTGRAY}compiled\n${NOCOLOR}"
+			cp ./Libft/libft.a ${NAME}
+			@$(GCC) $(FLAGS)  -c -I ./ ${SRC}
 			@ar rcs $(NAME) $(OBJS)
 			@echo ${NORMINETTE}
 

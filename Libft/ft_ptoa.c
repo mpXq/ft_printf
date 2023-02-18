@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 19:15:43 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/17 21:24:59 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/18 00:54:52 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ char	*ft_ptoa(size_t nb)
 	int		i;
 	char	*base;
 	char	*str;
-	char	*str;
+	char	*str2;
 
+	str = NULL;
 	base = "0123456789abcdef";
 	str = ft_strjoin(str, "0x");
 	if (nb == 0)

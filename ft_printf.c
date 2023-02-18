@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/17 20:02:54 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:10:06 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,4 @@ int	ft_printf(const	char *str, ...)
 	}
 	ft_putstr_fd(p.line, 1);
 	return (p.len);
-}
-
-int	main(void)
-{
-	ft_printf("test");
-	return (0);
 }

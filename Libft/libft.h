@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:36:24 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/17 19:53:02 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:24:58 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,7 @@ char	*ft_strndup(char const *line, int start, int end);
 char	*ft_addchar(char const *str, char c);
 
 char	*ft_ptoa(size_t nb);
+
+char	*ft_itoa_base(unsigned int nbr, char *base);
 
 #endif
