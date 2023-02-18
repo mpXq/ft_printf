@@ -60,7 +60,7 @@ all: 		$(NAME)
 $(NAME):	$(OBJS)
 			@make -C ./Libft
 			@printf "${CLEAR}☂️  ${LIGHTPURPLE}Printf ${LIGHTGRAY}compiled\n${NOCOLOR}"
-			cp ./Libft/libft.a ${NAME}
+			@cp ./Libft/libft.a ${NAME}
 			@$(GCC) $(FLAGS)  -c -I ./ ${SRC}
 			@ar rcs $(NAME) $(OBJS)
 			@echo ${NORMINETTE}
