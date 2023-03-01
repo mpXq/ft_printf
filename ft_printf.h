@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:16:05 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/18 01:48:16 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:41:36 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,8 @@ int		ft_printf(const	char *str, ...);
 
 /*-----	PARSING	-----*/
 int		is_percentage(t_printf *p, const char *str, int i, va_list aptr);
+char	*ft_addchar(char const *str, char c, t_printf *p);
+char	*ft_itoa_base(unsigned int nb, char *base, t_printf *p);
+char	*ft_ptoa(size_t nb, t_printf *p);
 
 #endif

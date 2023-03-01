@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/02/18 02:10:06 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:32:32 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,17 @@ int	ft_printf(const	char *str, ...)
 		return (0);
 	initializer(&p);
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '%' && i++ > -1)
-			i += is_percentage(&p, str, i, aptr);
+			i = is_percentage(&p, str, i, aptr);
 		else
-		{
-			p.len++;
-			p.line = ft_addchar(p.line, str[i++]);
-		}
+			p.line = ft_addchar(p.line, str[i++], &p);
 		if (i == -1)
 			break ;
 	}
 	ft_putstr_fd(p.line, 1);
+	if (p.line)
+		free(p.line);
 	return (p.len);
 }

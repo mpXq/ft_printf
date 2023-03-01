@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 13:42:26 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/01 13:18:16 by pfaria-d         ###   ########.fr       */
+/*   Created: 2023/03/01 12:00:58 by pfaria-d          #+#    #+#             */
+/*   Updated: 2023/03/01 15:10:39 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strndup(char const *line, int start, int end)
+int	main(void)
 {
-	int		i;
-	char	*str;
+	char	c;
 
-	i = 0;
-	str = malloc(sizeof(char) * (end - start) + 1);
-	if (!str)
-		return (NULL);
-	while (start != end && line[start])
-	{
-		str[i] = line[start];
-		start++;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	c = 0;
+	ft_printf(" %c %c %c ", '0', 0, '1');
+	return (0);
 }

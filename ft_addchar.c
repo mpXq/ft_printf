@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_addchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 13:42:26 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/01 13:18:16 by pfaria-d         ###   ########.fr       */
+/*   Created: 2023/02/17 13:22:23 by pfaria-d          #+#    #+#             */
+/*   Updated: 2023/03/01 16:03:28 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strndup(char const *line, int start, int end)
+char	*ft_addchar(char const *str, char c, t_printf *p)
 {
+	char	*str2;
 	int		i;
-	char	*str;
 
-	i = 0;
-	str = malloc(sizeof(char) * (end - start) + 1);
-	if (!str)
-		return (NULL);
-	while (start != end && line[start])
+	if (p->line && !p->line[p->len - 1])
 	{
-		str[i] = line[start];
-		start++;
-		i++;
+		p->len++;
+		return ((char *)str);
 	}
-	str[i] = '\0';
-	return (str);
+	p->len++;
+	i = -1;
+	str2 = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	if (ft_strlen(str) == 0)
+		i = 0;
+	while (str && str[++i])
+		str2[i] = str[i];
+	str2[i++] = c;
+	str2[i] = 0;
+	if (ft_strlen(str) > 0)
+		free((char *)str);
+	str = NULL;
+	return (str2);
 }
