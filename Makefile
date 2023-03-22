@@ -6,7 +6,7 @@
 #    By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/16 16:15:58 by pfaria-d          #+#    #+#              #
-#    Updated: 2023/03/01 15:40:05 by pfaria-d         ###   ########.fr        #
+#    Updated: 2023/03/06 16:38:05 by pfaria-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -23,12 +23,14 @@ SRC 		= ft_printf.c \
 			  ft_addchar.c \
 			  ft_itoa_base.c \
 			  ft_ptoa.c \
+			  ft_strdup2.c \
 
 SRCBONUS	= ft_printf.c \
 			  ft_printf_parsing.c \
 			  ft_addchar.c \
 			  ft_itoa_base.c \
 			  ft_ptoa.c \
+			  ft_strdup2.c \
 
 OBJS 		= $(SRC:.c=.o)
 

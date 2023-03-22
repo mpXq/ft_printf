@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/01 16:03:02 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:45:14 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ static char	*getarg(char c, va_list aptr, t_printf *p)
 
 	cmd = NULL;
 	if (c == 'c')
-		cmd = ft_addchar(cmd, va_arg(aptr, int), p);
+		cmd = ft_addchar(cmd, va_arg(aptr, int), p, 0);
 	else if (c == 's')
-		cmd = ft_strdup(va_arg(aptr, char *));
+		cmd = ft_strdup2(va_arg(aptr, char *), p);
 	else if (c == 'p')
-		cmd = ft_ptoa(va_arg(aptr, size_t), p);
+	{
+		cmd = ft_ptoa(va_arg(aptr, unsigned long long int), p);
+		p->line += ft_strlen(cmd);
+	}
 	else if (c == 'd' || c == 'u')
 		cmd = ft_itoa_base((int)va_arg(aptr, unsigned int), "0123456789", p);
 	else if (c == 'x')
@@ -47,7 +50,7 @@ static char	*getarg(char c, va_list aptr, t_printf *p)
 	else if (c == 'X')
 		cmd = ft_itoa_base((size_t)va_arg(aptr, size_t), "0123456789ABCDEF", p);
 	else if (c == '%')
-		cmd = ft_addchar(cmd, '%', p);
+		cmd = ft_addchar(cmd, '%', p, 0);
 	return (cmd);
 }
 
@@ -59,7 +62,8 @@ static void	command(t_printf *p, char *str, char *cmd)
 	{
 		tmp = p->line;
 		p->line = ft_strjoin(tmp, cmd);
-		free(tmp);
+		if (ft_strlen(tmp) > 0)
+			free(tmp);
 		tmp = NULL;
 	}
 }
