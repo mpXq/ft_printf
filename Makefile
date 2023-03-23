@@ -6,7 +6,7 @@
 #    By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/16 16:15:58 by pfaria-d          #+#    #+#              #
-#    Updated: 2023/03/06 16:38:05 by pfaria-d         ###   ########.fr        #
+#    Updated: 2023/03/23 14:27:38 by pfaria-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -38,7 +38,7 @@ OBJSBONUS 	= $(SRCBONUS:.c=.o)
 
 GCC 		= gcc
 
-FLAGS		= -Wall -Wextra -Werror
+FLAGS		= -Wall -Wextra -Werror 
 
 RM  = rm -f
 

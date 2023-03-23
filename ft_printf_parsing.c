@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/06 17:45:14 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/23 20:37:55 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,18 @@ static char	*getarg(char c, va_list aptr, t_printf *p)
 	else if (c == 's')
 		cmd = ft_strdup2(va_arg(aptr, char *), p);
 	else if (c == 'p')
-	{
 		cmd = ft_ptoa(va_arg(aptr, unsigned long long int), p);
-		p->line += ft_strlen(cmd);
+	else if (c == 'd' || c == 'i')
+	{
+		cmd = ft_itoa_base((int)va_arg(aptr, int), "0123456789", p);
+		p->len += ft_strlen(cmd);
 	}
-	else if (c == 'd' || c == 'u')
-		cmd = ft_itoa_base((int)va_arg(aptr, unsigned int), "0123456789", p);
+	else if (c == 'u')
+		cmd = ft_utoa_base((int)va_arg(aptr, unsigned int), "0123456789", p);
 	else if (c == 'x')
-		cmd = ft_itoa_base((size_t)va_arg(aptr, size_t), "0123456789abcdef", p);
+		cmd = ft_utoa_base((size_t)va_arg(aptr, size_t), "0123456789abcdef", p);
 	else if (c == 'X')
-		cmd = ft_itoa_base((size_t)va_arg(aptr, size_t), "0123456789ABCDEF", p);
+		cmd = ft_utoa_base((size_t)va_arg(aptr, size_t), "0123456789ABCDEF", p);
 	else if (c == '%')
 		cmd = ft_addchar(cmd, '%', p, 0);
 	return (cmd);
