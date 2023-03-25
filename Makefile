@@ -6,7 +6,7 @@
 #    By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/16 16:15:58 by pfaria-d          #+#    #+#              #
-#    Updated: 2023/03/23 14:27:38 by pfaria-d         ###   ########.fr        #
+#    Updated: 2023/03/24 22:55:00 by pfaria-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #
@@ -45,7 +45,6 @@ RM  = rm -f
 NAME = libftprintf.a
 
 ifdef 	MAKEBONUS
-    OBJS = $(OBJSBONUS)
 endif
 
 NORM = $(shell norminette | grep Error: | wc -l | awk '{print $1}' | xargs)
@@ -74,7 +73,7 @@ $(NAME):	$(OBJS)
 			@echo ${NORMINETTE}
 
 bonus:		fclean
-			@make MAKEBONUS=1 all
+			@make
 
 clean:
 			@make clean -C ./Libft

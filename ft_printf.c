@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/23 18:45:19 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/25 01:07:30 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 void	initializer(t_printf	*p)
 {
+	p->lostlen = 0;
 	p->len = 0;
 	p->nlen = 0;
 	p->line = 0;
-	p->zero = FALSE;
-	p->plus = FALSE;
-	p->blank = FALSE;
-	p->minus = FALSE;
-	p->htag = FALSE;
-	p->point = FALSE;
+	p->flag = 0;
 }
 
 int	ft_printf(const	char *str, ...)
@@ -48,5 +44,6 @@ int	ft_printf(const	char *str, ...)
 	ft_putstr_fd(p.line, 1);
 	if (ft_strlen(p.line) > 0)
 		free(p.line);
+	p.len += p.lostlen;
 	return (p.len);
 }

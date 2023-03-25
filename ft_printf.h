@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:16:05 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/23 20:37:26 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/25 01:03:25 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,11 @@ typedef int		t_bool;
 typedef struct s_printf
 {
 	int		len;
+	int		lostlen;
 	int		nlen;
+	int		prec;
 	char	*line;
-	t_bool	zero;
-	t_bool	plus;
-	t_bool	blank;
-	t_bool	minus;
-	t_bool	htag;
-	t_bool	point;
+	char	flag;
 }			t_printf;
 
 /*-----	  MAIN	-----*/
