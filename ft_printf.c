@@ -6,19 +6,20 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 01:07:30 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/25 02:59:39 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	initializer(t_printf	*p)
+void	initializer(t_printf *p)
 {
 	p->lostlen = 0;
 	p->len = 0;
 	p->nlen = 0;
 	p->line = 0;
 	p->flag = 0;
+	p->prec = 0;
 }
 
 int	ft_printf(const	char *str, ...)

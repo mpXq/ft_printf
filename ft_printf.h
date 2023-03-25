@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:16:05 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 01:03:25 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/25 02:59:25 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_printf
 
 /*-----	  MAIN	-----*/
 int		ft_printf(const	char *str, ...);
+void	initializer(t_printf *p);
 
 /*-----	PARSING	-----*/
 int		is_percentage(t_printf *p, const char *str, int i, va_list aptr);

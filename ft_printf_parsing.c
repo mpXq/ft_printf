@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 02:03:23 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/03/25 04:54:21 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	changeprec(char *str, int i, t_printf *p)
 		i++;
 	tmp = ft_strndup(str, start + 1, i);
 	p->prec = ft_atoi(tmp);
+	if (start + 1 == i)
+		p->prec = -1;
 	free(tmp);
 	return (i - start);
 }
@@ -133,20 +135,73 @@ char	*createwidth(t_printf *p, char *bcmd)
 	return (tmp);
 }
 
+char	*createwidth2(char *bcmd, int i)
+{
+	char	*tmp;
+	int		x;
+
+	if (ft_strlen(bcmd) > 0 && !ft_strncmp(bcmd, "-", 1))
+		i++;
+	tmp = malloc(sizeof(char) * (i + 1));
+	x = 0;
+	if (ft_strlen(bcmd) > 0 && !ft_strncmp(bcmd, "-", 1))
+		tmp[x++] = '-';
+	while (x < i)
+	{
+		tmp[x] = '0';
+		x++;
+	}
+	tmp[x] = 0;
+	return (tmp);
+}
+
+void	reinitializer(t_printf *p)
+{
+	p->nlen = 0;
+	p->flag = 0;
+	p->prec = 0;
+}
+
 char	*flag_gestion(t_printf *p, char *cmd, char c)
 {
 	char	*bcmd;
 	char	*tmp;
 	int		len;
 	int		len2;
+	int		x;
 
 	bcmd = cmd;
-	if (p->line && (!p->line[p->len - 1 - (ft_strlen(cmd))]))
+	x = 0;
+	if (p->prec != 0 && cmd)
+	{
+		x++;
+		if (p->prec < (int)ft_strlen(cmd) && c == 's')
+			cmd = ft_strndup(cmd, 0, p->prec); 
+		else if ((p->prec > (int)ft_strlen(cmd) || (p->prec >= (int)ft_strlen(cmd) && !ft_strncmp("-", bcmd, 1)))  && (c == 'd' || c == 'i' || c == 'u' || c == 'X' || c == 'x'))
+		{
+			char	*tmp2;
+
+			if (bcmd && !ft_strncmp(bcmd, "-", 1))
+				tmp = createwidth2(bcmd, p->prec - (int)ft_strlen(bcmd) + 1); 
+			else
+				tmp = createwidth2(bcmd, p->prec - (int)ft_strlen(bcmd)); 
+			tmp2 = cmd;
+			if (bcmd && !ft_strncmp(bcmd, "-", 1))
+				tmp2 = ft_strndup(cmd, 1, ft_strlen(cmd));
+			cmd = ft_strjoin(tmp, tmp2);
+			if (bcmd && !ft_strncmp(bcmd, "-", 1))
+				free(tmp2);
+			free(tmp);
+		}
+	}
+	if (p->line && (!p->line[p->len - 1 - (ft_strlen(bcmd))]))
 	{
 		if (p->nlen > 1)
 			p->lostlen += p->nlen - 1;
 		return (0);
 	}
+	if (x)
+		p->len -= (ft_strlen(bcmd) - ft_strlen(cmd));
 	len = ft_strlen(cmd);
 	if ((c == 'd' || c == 'i') && p->flag == '+' && ft_atoi(bcmd) >= 0)
 		cmd = ft_strjoin("+", cmd);
@@ -160,9 +215,7 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 	{
 		tmp = createwidth(p, bcmd);
 		if (p->flag == '-')
-		{
 			cmd = ft_strjoin(cmd, tmp);
-		}
 		else
 		{
 			char	*tmp2;
@@ -198,15 +251,24 @@ static void	command(t_printf *p, char *str, char *cmd, char c)
 	{
 		tmp2 = cmd;
 		flags(p, str, c);
+		if (ft_strlen(cmd) == 0 && p->prec != 0)
+			p->prec = -1;
+		if (p->prec == -1)
+		{
+			p->len -= ft_strlen(cmd);
+			reinitializer(p);
+			return ;
+		}
 		tmp = p->line;
 		cmd = flag_gestion(p, cmd, c);
 		p->line = ft_strjoin(tmp, cmd);
 		free(tmp);
 		tmp = NULL;
-		if ((tmp2 && ft_strncmp(tmp2, cmd, ft_strlen(cmd))) || ft_strlen(tmp2) == 0)
+		if (tmp2 && cmd && ft_strncmp(tmp2, cmd, 10000))
 			free(cmd);
 		cmd = NULL;
 	}
+	reinitializer(p);
 }
 
 int	is_percentage(t_printf *p, const char *str, int i, va_list aptr)
