@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 04:54:21 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:07:35 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,15 @@ void	flags(t_printf *p, char *str, char c)
 	while (str[i] && str[i] != c)
 	{
 		if (str[i] == '+' && i++ > -1)
-			p->flag = '+';
+			p->plus = TRUE;
 		if (str[i] == '-' && i++ > -1)
-			p->flag = '-';
+			p->minus = TRUE;
 		if (str[i] == ' ' && i++ > -1)
-			p->flag = ' ';
+			p->space = TRUE;
 		if (str[i] == '#' && i++ > -1)
-			p->flag = '#';
+			p->htag = TRUE;
 		if (str[i] == '0' && i++ > -1)
-			p->flag = '0';
+			p->zero = TRUE;
 		if (str[i] == '.')
 			i += changeprec(str, i, p);
 		if (ft_isdigit(str[i]) && str[i] != '0')
@@ -117,15 +117,15 @@ char	*createwidth(t_printf *p, char *bcmd)
 	int		x;
 
 	i = p->nlen - (int)ft_strlen(bcmd);
-	if (ft_strlen(bcmd) > 0 && p->flag == '0' && !ft_strncmp(bcmd, "-", 1))
+	if (ft_strlen(bcmd) > 0 && p->zero == TRUE && !ft_strncmp(bcmd, "-", 1))
 		i++;
 	tmp = malloc(sizeof(char) * (i + 1));
 	x = 0;
-	if (ft_strlen(bcmd) > 0 && p->flag == '0' && !ft_strncmp(bcmd, "-", 1))
+	if (ft_strlen(bcmd) > 0 && p->zero == TRUE && !ft_strncmp(bcmd, "-", 1))
 		tmp[x++] = '-';
 	while (x < i)
 	{
-		if (p->flag == '0')
+		if (p->zero == TRUE)
 			tmp[x] = '0';
 		else
 			tmp[x] = ' ';
@@ -158,7 +158,11 @@ char	*createwidth2(char *bcmd, int i)
 void	reinitializer(t_printf *p)
 {
 	p->nlen = 0;
-	p->flag = 0;
+	p->zero = FALSE;
+	p->plus = FALSE;
+	p->minus = FALSE;
+	p->space = FALSE;
+	p->htag = FALSE;
 	p->prec = 0;
 }
 
@@ -177,7 +181,7 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 		x++;
 		if (p->prec < (int)ft_strlen(cmd) && c == 's')
 			cmd = ft_strndup(cmd, 0, p->prec); 
-		else if ((p->prec > (int)ft_strlen(cmd) || (p->prec >= (int)ft_strlen(cmd) && !ft_strncmp("-", bcmd, 1)))  && (c == 'd' || c == 'i' || c == 'u' || c == 'X' || c == 'x'))
+		else if ((p->prec > (int)ft_strlen(cmd) || (p->prec >= (int)ft_strlen(cmd) && !ft_strncmp("-", bcmd, 1))) && (c == 'd' || c == 'i' || c == 'u' || c == 'X' || c == 'x'))
 		{
 			char	*tmp2;
 
@@ -203,18 +207,18 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 	if (x)
 		p->len -= (ft_strlen(bcmd) - ft_strlen(cmd));
 	len = ft_strlen(cmd);
-	if ((c == 'd' || c == 'i') && p->flag == '+' && ft_atoi(bcmd) >= 0)
+	if ((c == 'd' || c == 'i') && p->plus == TRUE && ft_atoi(bcmd) >= 0)
 		cmd = ft_strjoin("+", cmd);
-	else if (c == 'x' && p->flag == '#' && ft_strncmp(bcmd, "0", 2))
+	else if (c == 'x' && p->htag == TRUE && ft_strncmp(bcmd, "0", 2))
 		cmd = ft_strjoin("0x", cmd);
-	else if (c == 'X' && p->flag == '#' && ft_strncmp(bcmd, "0", 2))
+	else if (c == 'X' && p->htag == TRUE && ft_strncmp(bcmd, "0", 2))
 		cmd = ft_strjoin("0X", cmd);
-	else if ((c == 'd' || c == 'i') && p->flag == ' ' && ft_atoi(bcmd) >= 0)
+	else if ((c == 'd' || c == 'i') && p->space == TRUE && ft_atoi(bcmd) >= 0)
 		cmd = ft_strjoin(" ", cmd);
 	if (p->nlen > 0 && p->nlen > (int)ft_strlen(bcmd))
 	{
 		tmp = createwidth(p, bcmd);
-		if (p->flag == '-')
+		if (p->minus == TRUE)
 			cmd = ft_strjoin(cmd, tmp);
 		else
 		{
@@ -264,7 +268,7 @@ static void	command(t_printf *p, char *str, char *cmd, char c)
 		p->line = ft_strjoin(tmp, cmd);
 		free(tmp);
 		tmp = NULL;
-		if (tmp2 && cmd && ft_strncmp(tmp2, cmd, 10000))
+		if (((tmp2 && cmd && ft_strncmp(tmp2, cmd, 10000)) || !tmp2))
 			free(cmd);
 		cmd = NULL;
 	}

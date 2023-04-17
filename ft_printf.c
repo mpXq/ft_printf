@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:29:18 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 02:59:39 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:08:52 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	initializer(t_printf *p)
 	p->len = 0;
 	p->nlen = 0;
 	p->line = 0;
-	p->flag = 0;
+	p->zero = FALSE;
+	p->space = FALSE;
+	p->htag = FALSE;
+	p->minus = FALSE;
+	p->plus = FALSE;
 	p->prec = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 16:16:05 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/03/25 02:59:25 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:02:49 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ typedef struct s_printf
 	int		nlen;
 	int		prec;
 	char	*line;
-	char	flag;
+	t_bool	plus;
+	t_bool	minus;
+	t_bool	space;
+	t_bool	htag;
+	t_bool	zero;
 }			t_printf;
 
 /*-----	  MAIN	-----*/
