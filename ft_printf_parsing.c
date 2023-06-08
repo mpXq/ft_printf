@@ -6,7 +6,7 @@
 /*   By: pfaria-d <pfaria-d@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:54:35 by pfaria-d          #+#    #+#             */
-/*   Updated: 2023/04/17 15:07:35 by pfaria-d         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:38:35 by pfaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	changelen(char *str, int i, t_printf *p)
 	return (i - start);
 }
 
-int	changeprec(char *str, int i, t_printf *p)
+int	changeprec(char *str, int i, t_printf *p, char c)
 {
 	int		start;
 	char	*tmp;
@@ -80,7 +80,9 @@ int	changeprec(char *str, int i, t_printf *p)
 		i++;
 	tmp = ft_strndup(str, start + 1, i);
 	p->prec = ft_atoi(tmp);
-	if (start + 1 == i)
+	if (start + 1 == i && c != 'c')
+		p->prec = -1;
+	if (ft_atoi(tmp) == 0 && c != 'c')
 		p->prec = -1;
 	free(tmp);
 	return (i - start);
@@ -95,16 +97,16 @@ void	flags(t_printf *p, char *str, char c)
 	{
 		if (str[i] == '+' && i++ > -1)
 			p->plus = TRUE;
-		if (str[i] == '-' && i++ > -1)
+		if (str[i] == '-' && i++ > -1 && p->zero == FALSE)
 			p->minus = TRUE;
 		if (str[i] == ' ' && i++ > -1)
 			p->space = TRUE;
 		if (str[i] == '#' && i++ > -1)
 			p->htag = TRUE;
-		if (str[i] == '0' && i++ > -1)
+		if (str[i] == '0' && i++ > -1 && p->minus == FALSE)
 			p->zero = TRUE;
 		if (str[i] == '.')
-			i += changeprec(str, i, p);
+			i += changeprec(str, i, p, c);
 		if (ft_isdigit(str[i]) && str[i] != '0')
 			i += changelen(str, i, p); 
 	}
@@ -176,10 +178,16 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 
 	bcmd = cmd;
 	x = 0;
-	if (p->prec != 0 && cmd)
+	if (p->prec != 0 && cmd && p->prec)
 	{
 		x++;
-		if (p->prec < (int)ft_strlen(cmd) && c == 's')
+		if (p->prec == -1)
+		{
+			p->len -= ft_strlen(bcmd);
+			bcmd = 0;
+			cmd = 0;
+		}
+		else if (p->prec < (int)ft_strlen(cmd) && c == 's')
 			cmd = ft_strndup(cmd, 0, p->prec); 
 		else if ((p->prec > (int)ft_strlen(cmd) || (p->prec >= (int)ft_strlen(cmd) && !ft_strncmp("-", bcmd, 1))) && (c == 'd' || c == 'i' || c == 'u' || c == 'X' || c == 'x'))
 		{
@@ -198,12 +206,15 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 			free(tmp);
 		}
 	}
-	if (p->line && (!p->line[p->len - 1 - (ft_strlen(bcmd))]))
+	if (p->line && (!p->line[p->len - 1 - (ft_strlen(bcmd))]) && p->minus == TRUE)
 	{
 		if (p->nlen > 1)
 			p->lostlen += p->nlen - 1;
 		return (0);
 	}
+	if (p->line && (!p->line[p->len - 1 - (ft_strlen(bcmd))]))
+		if (p->nlen > 1)
+			p->nlen--;
 	if (x)
 		p->len -= (ft_strlen(bcmd) - ft_strlen(cmd));
 	len = ft_strlen(cmd);
@@ -215,20 +226,34 @@ char	*flag_gestion(t_printf *p, char *cmd, char c)
 		cmd = ft_strjoin("0X", cmd);
 	else if ((c == 'd' || c == 'i') && p->space == TRUE && ft_atoi(bcmd) >= 0)
 		cmd = ft_strjoin(" ", cmd);
-	if (p->nlen > 0 && p->nlen > (int)ft_strlen(bcmd))
+	if (p->nlen > 0 && p->nlen > (int)ft_strlen(cmd))
 	{
-		tmp = createwidth(p, bcmd);
+		tmp = createwidth(p, cmd);
 		if (p->minus == TRUE)
 			cmd = ft_strjoin(cmd, tmp);
 		else
 		{
 			char	*tmp2;
+			int		min = 0;
+			int		tmp3 = ft_strlen(tmp);
 
 			tmp2 = cmd;
-			if (bcmd && !ft_strncmp(bcmd, "-", 1))
+			if (bcmd && !ft_strncmp(bcmd, "-", 1) && p->zero == TRUE)
+			{
+				min = 1;
 				tmp2 = ft_strndup(cmd, 1, ft_strlen(cmd));
+			}
+			if (p->zero == TRUE && p->nlen > p->prec && (p->prec != 0 && p->prec != -1))
+			{
+				int k = p->prec;
+				int	l = 0;
+			while (k++ < p->nlen && l < tmp3)
+					tmp[l++] = ' ';
+				if (min == 1)
+					tmp[--l] = '-';
+			}
 			cmd = ft_strjoin(tmp, tmp2);
-			if (bcmd && !ft_strncmp(bcmd, "-", 1))
+			if (bcmd && !ft_strncmp(bcmd, "-", 1) && p->zero == TRUE)
 				free(tmp2);
 		}
 		free(tmp);
@@ -257,12 +282,6 @@ static void	command(t_printf *p, char *str, char *cmd, char c)
 		flags(p, str, c);
 		if (ft_strlen(cmd) == 0 && p->prec != 0)
 			p->prec = -1;
-		if (p->prec == -1)
-		{
-			p->len -= ft_strlen(cmd);
-			reinitializer(p);
-			return ;
-		}
 		tmp = p->line;
 		cmd = flag_gestion(p, cmd, c);
 		p->line = ft_strjoin(tmp, cmd);
